@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 This plugin allows you to display menu items based on if a user is logged in, logged out or based on the role you have given the user.
 
 This plugin allows fine-grained permissions to be added to each individual menu item to display or not display the item based on the
- users logged in/logged out status or the role assigned to the user.  This solves the problem of having to modify theme functions.php files to add in menu restrictions.  The changes in functions.php is often overwritten by a theme update.  This plugin removes that worry, as you can update the theme, independent of the plugin.
+ users logged in/logged out status or the role assigned to the user.  This solves the problem of having to modify theme functions.php files to add in widget restrictions.  The changes in functions.php is often overwritten by a theme update.  This plugin removes that worry, as you can update the theme, independent of the plugin.
 
 == Installation ==
 
