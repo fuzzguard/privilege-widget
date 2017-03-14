@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Privilege Widget
  * Plugin URI: http://www.fuzzguard.com.au/plugins/privilege-widget
- * Description: Used to provide Widget display to users based on their Privilege Level (Currently only either logged in/logged out)
- * Version: 1.7.1
+ * Description: Used to provide Widget display to users based on whether the user is logged in, logged out, or has a certain role
+ * Version: 1.7.2
  * Author: Benjamin Guy
  * Author URI: http://www.fuzzguard.com.au
  * Text Domain: privilege-widget
@@ -95,32 +95,31 @@ function privilege_widget_form_extend( $t, $return, $instance ) {
                     <br><br>
                     <input type="hidden" class="widget-id" value="<?php echo $privWidget_id ;?>" />
 
-                    <div class="logged-input-holder" style="float: left; width: 35%;">
+                    <div class="logged-input-holder" style="float: left; width: 40%;">
                         <input type="radio" class="widget-logged-in-out" name="priv-widget-logged-in-out[<?php echo $privWidget_id ;?>]" id="priv_widget_logged_out-for-<?php echo $privWidget_id ;?>" <?php checked( 'out', $logged_in_out ); ?> value="out" onclick="jQuery('#priv-widget-access-role-div-<?php echo $privWidget_id;?>').hide()"/>
                         <label for="priv_widget_logged_out-for-<?php echo $privWidget_id ;?>">
-                            <?php _e( 'Logged Out Users', 'privilege-menu'); ?>
+                            <?php _e( 'Logged Out', 'privilege-menu'); ?>
                         </label>
                     </div>
 
-                    <div class="logged-input-holder" style="float: left; width: 35%;">
+                    <div class="logged-input-holder" style="float: left; width: 40%;">
                         <input type="radio" class="widget-logged-in-out" name="priv-widget-logged-in-out[<?php echo $privWidget_id ;?>]" id="priv_widget_logged_in-for-<?php echo $privWidget_id ;?>" <?php checked( 'in', $logged_in_out ); ?> value="in" onclick="jQuery('#priv-widget-access-role-div-<?php echo $privWidget_id ;?>').show();"/>
                         <label for="priv_widget_logged_in-for-<?php echo $privWidget_id ;?>">
-                            <?php _e( 'Logged In Users', 'privilege-menu'); ?>
+                            <?php _e( 'Logged In', 'privilege-menu'); ?>
                         </label>
                     </div>
 
-                    <div class="logged-input-holder" style="float: left; width: 30%;">
+                    <div class="logged-input-holder" style="float: left; width: 20%;">
                         <input type="radio" class="widget-logged-in-out" name="priv-widget-logged-in-out[<?php echo $privWidget_id ;?>]" id="priv_widget_by_role-for-<?php echo $privWidget_id ;?>" <?php checked( '', $logged_in_out ); ?> value="" onclick="jQuery('#priv-widget-access-role-div-<?php echo $privWidget_id ;?>').hide();"/>
                         <label for="priv_widget_by_role-for-<?php echo $privWidget_id ;?>">
-                            <?php _e( 'All Users', 'privilege-menu'); ?>
+                            <?php _e( 'All', 'privilege-menu'); ?>
                         </label>
                     </div>
 
                 </div>
 
                 <div class="field-nav_menu_role nav_menu_role_field description-wide" style="overflow: auto; width: 100%; margin: 5px 0;<?php if( $logged_in_out != 'in' ) { echo ' display: none;'; }?>" id="priv-widget-access-role-div-<?php echo $privWidget_id ;?>">
-                    <span class="description"><?php _e( "Access Role", 'privilege-menu'); ?>: <?php _e( "leave all unchecked to allow all logged in users to see the menu.", 'privilege-menu' ); ?></span>
-                    <br><br>
+                    <span class="description" style="display: block;"><?php _e( "Access Role", 'privilege-menu'); ?>: <?php _e( "leave all unchecked to allow all logged in users to see the menu.", 'privilege-menu' ); ?></span>
                     <?php
 
                     // Loop through each of the available roles.
@@ -131,7 +130,7 @@ function privilege_widget_form_extend( $t, $return, $instance ) {
 
                         ?>
 
-                        <div class="role-input-holder" style="float: left; width: 33.3%; margin: 2px 0;">
+                        <div class="role-input-holder" style="display: block; float: left; width: 45%; margin: 2px 2px; white-space: nowrap; text-overflow: ellipsis;">
                         <input type="checkbox" name="priv-widget-role[<?php echo $privWidget_id ;?>][<?php echo $role; ?>]" id="priv_widget_role-<?php echo $role; ?>-for-<?php echo $privWidget_id ;?>" <?php echo $checked; ?> value="<?php echo $role; ?>" />
                         <label for="priv_widget_role-<?php echo $role; ?>-for-<?php echo $privWidget_id ;?>">
                         <?php echo esc_html( $name ); ?>
