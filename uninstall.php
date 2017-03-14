@@ -10,20 +10,25 @@ if ( ! function_exists( 'is_admin' ) ) {
     exit();
 }
 
+include('privWidget.php');
+
 //if uninstall not called from WordPress exit
 if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) 
     exit();
 
+/**
+ * Initialize privWidget class
+ * @var Ambiguous $myprivWidgetClass
+ * @since 1.7.1
+ */
+$myprivWidgetClass = new privWidget();
+
 $allOptions = wp_load_alloptions();
 foreach ($allOptions as $option_name => $option_value) {
-	if (strpos($option_name, '_priv_widget') !== FALSE) {
+	if (strpos($option_name, $myprivWidgetClass->privWidgetOption) !== FALSE) {
 		delete_option( $option_name );
 	}
 }
 
-//delete_option( $option_name );
-
-// For site options in multisite
-//delete_site_option( $option_name );  
 
 ?>

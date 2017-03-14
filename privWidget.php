@@ -3,7 +3,7 @@
  * Plugin Name: Privilege Widget
  * Plugin URI: http://www.fuzzguard.com.au/plugins/privilege-widget
  * Description: Used to provide Widget display to users based on their Privilege Level (Currently only either logged in/logged out)
- * Version: 1.7
+ * Version: 1.7.1
  * Author: Benjamin Guy
  * Author URI: http://www.fuzzguard.com.au
  * Text Domain: privilege-widget
@@ -38,8 +38,17 @@ if ( ! function_exists( 'is_admin' ) ) {
     exit();
 }
 
-class privWidget {
 
+class privWidget {
+	
+	/**
+	 * Stores the option string name
+	 * @var string $privWidgetOption
+	 * @since 1.7.1
+	 */
+	public $privWidgetOption = '_priv_widget';
+	
+	
         /**
         * Loads localization files for each language
         * @since 1.4
@@ -50,12 +59,11 @@ class privWidget {
                 load_plugin_textdomain('privilege-widget', false, 'privilege-widget/lang/');
         }
 
-
 function privilege_widget_form_extend( $t, $return, $instance ) {
 
 		
 	$privWidget_id = $t->id;
-	$users_and_roles = get_option($privWidget_id.'_priv_widget');
+	$users_and_roles = get_option($privWidget_id.$this->privWidgetOption);
                 global $wp_roles;
 
                 $display_roles = apply_filters( 'priv_widget_roles', $wp_roles->role_names );
@@ -85,7 +93,6 @@ function privilege_widget_form_extend( $t, $return, $instance ) {
                 <div class="field-priv_widget_role priv_widget_logged_in_out_field description-wide" style="width: 100%; margin: 10px 0px; padding: 5px 0px; overflow: hidden; border-bottom: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;">
                     <span class="description"><?php _e( 'User Restrictions', 'privilege-menu' ); ?></span>
                     <br><br>
-
                     <input type="hidden" class="widget-id" value="<?php echo $privWidget_id ;?>" />
 
                     <div class="logged-input-holder" style="float: left; width: 35%;">
@@ -168,9 +175,9 @@ function privilege_widget_update($instance, $new_instance, $old_instance) {
             }
         }
         if ( $saved_data['roles'] != '' || $saved_data['users'] != '' ) {
-            update_option( $key.'_priv_widget', $saved_data );
+            update_option( $key.$this->privWidgetOption, $saved_data );
         } else {
-            delete_option( $key.'_priv_widget' );
+            delete_option( $key.$this->privWidgetOption );
         }
 		}
 	}
@@ -194,7 +201,7 @@ function privilege_widget_filter( $widget )
 
 		foreach($widget_list as $pos => $widget_id)
 		{
-			$meta_data = get_option($widget_id.'_priv_widget');
+			$meta_data = get_option($widget_id.$this->privWidgetOption);
                         // Handle the old format of the meta data.
                         if( !is_array( $meta_data ) ) {
                         	$temp = $meta_data;
@@ -248,7 +255,7 @@ function privilege_widget_filter( $widget )
 
                         if ( ! $visible ) unset($widget_list[$pos]);
 /**
-			$logged_in_out = get_option($widget_id.'_priv_widget');
+			$logged_in_out = get_option($widget_id.$this->privWidgetOption);
                         switch( $logged_in_out ) {
                                 case 'admin':
                                         $visible = current_user_can( 'manage_options' ) ? true : false;
