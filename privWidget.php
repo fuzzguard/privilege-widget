@@ -3,8 +3,8 @@
  * Plugin Name: Privilege Widget
  * Plugin URI: http://www.fuzzguard.com.au/plugins/privilege-widget
  * Description: Used to provide Widget display to users based on whether the user is logged in, logged out, or has a certain role
- * Version: 1.7.2
- * Author: Benjamin Guy
+ * Version: 1.7.3
+ * Author: <a href="http://www.fuzzguard.com.au/"><strong>Benjamin Guy</strong></a>
  * Author URI: http://www.fuzzguard.com.au
  * Text Domain: privilege-widget
  * License: GPL2
@@ -153,7 +153,7 @@ function privilege_widget_form_extend( $t, $return, $instance ) {
 function privilege_widget_update($instance, $new_instance, $old_instance) {
 	global $wp_roles;
        	$opt_arr = $_POST['priv-widget-logged-in-out'];
-	$allowed_roles = apply_filters( 'priv_menu_roles', $wp_roles->role_names );
+	$allowed_roles = apply_filters( 'priv_widget_roles', $wp_roles->role_names );
 	if (!empty($opt_arr)) {
 		foreach ($opt_arr as $key => $value) {
         $saved_data = array( 'users' => '', 'roles' => '');
@@ -250,7 +250,7 @@ function privilege_widget_filter( $widget )
                         }
 
                         // add filter to work with plugins that don't use traditional roles
-                        $visible = apply_filters( 'nav_menu_roles_item_visibility', $visible, $widget_list );
+                        $visible = apply_filters( 'priv_widget_visibility', $visible, $widget_list );
 
                         if ( ! $visible ) unset($widget_list[$pos]);
 /**
@@ -386,3 +386,5 @@ add_action( 'tgmpa_register', array( $myprivWidgetClass, 'fuzzguard_plugin_manag
 * @since 0.1
 */
 add_filter( 'widget_update_callback', array($myprivWidgetClass, 'privilege_widget_update'), 10, 3 );
+
+?>
